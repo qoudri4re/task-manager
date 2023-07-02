@@ -1,0 +1,36 @@
+<div class="new__task">
+  <div *ngIf="error" class="error__container">
+    <div suiColour="red" sui-message [suiDismissible]="true" class="error__msg">
+      <div sui-message-header></div>
+      <p>Maximum character limit exceeded (15 characters max)</p>
+    </div>
+  </div>
+  <h3>Create new task</h3>
+  <form sui-form [formGroup]="createNewTaskForm" (ngSubmit)="onSubmit()">
+    <div suiFormField>
+      <label>Task title</label>
+      <input
+        type="text"
+        name="first-name"
+        placeholder="Task title"
+        (input)="validate()"
+        formControlName="taskTitle"
+      />
+    </div>
+    <div suiFormField>
+      <label>Task Description</label>
+      <input
+        type="text"
+        name="last-name"
+        placeholder="Task Description"
+        formControlName="taskDescription"
+        (input)="validate()"
+      />
+    </div>
+    <div class="submit__button">
+      <button sui-button type="submit" [disabled]="disableSubmit">
+        Submit
+      </button>
+    </div>
+  </form>
+</div>

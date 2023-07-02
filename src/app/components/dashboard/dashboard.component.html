@@ -1,0 +1,111 @@
+<div class="dashboard">
+  <div class="dashboard__header">
+    <div class="left">
+      <h3>Task Manager</h3>
+    </div>
+    <div class="right">
+      <button (click)="toNewTaskPage()">Create new task</button>
+    </div>
+  </div>
+  <div class="columns">
+    <div class="column new__task__column">
+      <div class="column__header">
+        <span>New tasks</span>
+      </div>
+      <div
+        class="ui cards example-list"
+        cdkDropList
+        #newTasksList="cdkDropList"
+        [cdkDropListData]="newTasks"
+        [cdkDropListConnectedTo]="[inprogressList, doneTasksList]"
+        (cdkDropListDropped)="drop($event)"
+      >
+        <ng-container *ngIf="newTasks.length > 0; else emptyNewTasks">
+          <div
+            *ngFor="let newTask of newTasks"
+            class="card example-box"
+            cdkDrag
+          >
+            <div class="content">
+              <div class="header">{{ newTask.title }}</div>
+              <div class="description">
+                {{ newTask.description }}
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <ng-template #emptyNewTasks>
+          <div class="ui floating message">
+            <p>No new tasks</p>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+    <div class="column in__progress__column" cdkDropList>
+      <div class="column__header"><span>In progress</span></div>
+      <div
+        class="ui cards example-list"
+        cdkDropList
+        #inprogressList="cdkDropList"
+        [cdkDropListData]="inprogressTasks"
+        [cdkDropListConnectedTo]="[newTasksList, doneTasksList]"
+        (cdkDropListDropped)="drop($event)"
+      >
+        <ng-container
+          *ngIf="inprogressTasks.length > 0; else emptyProgressTask"
+        >
+          <div
+            *ngFor="let inprogressTask of inprogressTasks"
+            class="card example-box"
+            cdkDrag
+          >
+            <div class="content">
+              <div class="header">{{ inprogressTask.title }}</div>
+              <div class="description">
+                {{ inprogressTask.description }}
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <ng-template #emptyProgressTask>
+          <div class="ui floating message">
+            <p>No task in progress</p>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+    <div class="column done__column">
+      <div class="column__header">
+        <span>Done</span>
+      </div>
+      <div
+        class="ui cards example-list"
+        cdkDropList
+        #doneTasksList="cdkDropList"
+        [cdkDropListData]="doneTasks"
+        [cdkDropListConnectedTo]="[newTasksList, inprogressList]"
+        (cdkDropListDropped)="drop($event)"
+      >
+        <ng-container *ngIf="doneTasks.length > 0; else empty">
+          <div
+            *ngFor="let doneTask of doneTasks"
+            class="card example-box"
+            cdkDrag
+          >
+            <div class="content">
+              <div class="header">{{ doneTask.title }}</div>
+              <div class="description">
+                {{ doneTask.description }}
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <ng-template #empty>
+          <div class="ui floating message">
+            <p>No done task</p>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
