@@ -7,26 +7,7 @@ import { Task } from '../interfaces/task';
 export class TaskServicesService {
   constructor() {}
 
-  private tasks: Task[] = [
-    {
-      id: 1,
-      title: 'New task',
-      description: 'A new task',
-      status: 'New Task',
-    },
-    {
-      id: 2,
-      title: 'In progress task',
-      description: 'A task in progress',
-      status: 'in progress',
-    },
-    {
-      id: 3,
-      title: 'Finished task',
-      description: 'A finished task',
-      status: 'done',
-    },
-  ];
+  private tasks: Task[] = [];
 
   getTasks(): Task[] {
     return this.tasks;

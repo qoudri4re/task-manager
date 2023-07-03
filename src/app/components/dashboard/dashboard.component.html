@@ -18,7 +18,7 @@
         #newTasksList="cdkDropList"
         [cdkDropListData]="newTasks"
         [cdkDropListConnectedTo]="[inprogressList, doneTasksList]"
-        (cdkDropListDropped)="drop($event)"
+        (cdkDropListDropped)="dropOnColumnOne($event)"
       >
         <ng-container *ngIf="newTasks.length > 0; else emptyNewTasks">
           <div
@@ -49,7 +49,7 @@
         #inprogressList="cdkDropList"
         [cdkDropListData]="inprogressTasks"
         [cdkDropListConnectedTo]="[newTasksList, doneTasksList]"
-        (cdkDropListDropped)="drop($event)"
+        (cdkDropListDropped)="dropOnColumnTwo($event)"
       >
         <ng-container
           *ngIf="inprogressTasks.length > 0; else emptyProgressTask"
@@ -84,7 +84,7 @@
         #doneTasksList="cdkDropList"
         [cdkDropListData]="doneTasks"
         [cdkDropListConnectedTo]="[newTasksList, inprogressList]"
-        (cdkDropListDropped)="drop($event)"
+        (cdkDropListDropped)="dropOnColumnThree($event)"
       >
         <ng-container *ngIf="doneTasks.length > 0; else empty">
           <div

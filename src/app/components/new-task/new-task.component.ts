@@ -38,7 +38,7 @@ export class NewTaskComponent implements OnInit {
     return (control: AbstractControl): { [key: string]: any } | null => {
       const value = control.value;
 
-      if (value.length > 15) {
+      if (value.split(' ').length > 15) {
         return { customError: true };
       }
 

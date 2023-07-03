@@ -24,6 +24,10 @@ export class DashboardComponent implements OnInit {
   columns = {};
 
   updateTasks() {
+    this.newTasks = [];
+    this.inprogressTasks = [];
+    this.doneTasks = [];
+
     this.allTasks.map((task) => {
       if (task.status === 'New Task') {
         this.newTasks.push(task);
@@ -39,65 +43,48 @@ export class DashboardComponent implements OnInit {
     this.router.navigate(['/new-task']);
   }
 
-  drop(event: CdkDragDrop<any>) {
-    // console.log(event);
-    // console.log(event.previousIndex);
-    // console.log(event.currentIndex);
+  dropOnColumnOne(event: CdkDragDrop<any>) {
+    let dataTransfered = event.previousContainer.data[event.previousIndex];
 
-    console.log(event.previousContainer.id);
-    console.log(event.container.id);
-
-    if (event.previousContainer.id === event.container.id) {
+    if (
+      dataTransfered.status === 'done' ||
+      dataTransfered.status === 'in progress'
+    ) {
+      this.taskService.updateTaskStatus(dataTransfered.id, 'New Task');
     } else {
-      let previousContainerId = event.previousContainer.id;
-      let indexOfDataMoved = event.previousIndex;
-      if (event.container.id === 'cdk-drop-list-0') {
-        if (previousContainerId === 'cdk-drop-list-2') {
-          let data = this.inprogressTasks.splice(indexOfDataMoved, 1)[0];
-          this.newTasks.push({
-            ...data,
-            status: 'New Task',
-          });
-          this.taskService.updateTaskStatus(data.id, 'New Task');
-        } else {
-          let data = this.doneTasks.splice(indexOfDataMoved, 1)[0];
-          this.newTasks.push({
-            ...data,
-            status: 'New Task',
-          });
-        }
-      } else if (event.container.id === 'cdk-drop-list-2') {
-        if (previousContainerId === 'cdk-drop-list-0') {
-          let data = this.newTasks.splice(indexOfDataMoved, 1)[0];
-          this.inprogressTasks.push({
-            ...data,
-            status: 'in progress',
-          });
-          this.taskService.updateTaskStatus(data.id, 'in progress');
-        } else {
-          let data = this.doneTasks.splice(indexOfDataMoved, 1)[0];
-          this.inprogressTasks.push({
-            ...data,
-            status: 'in progress',
-          });
-        }
-      } else {
-        if (previousContainerId === 'cdk-drop-list-0') {
-          let data = this.newTasks.splice(indexOfDataMoved, 1)[0];
-          this.doneTasks.push({
-            ...data,
-            status: 'done',
-          });
-          this.taskService.updateTaskStatus(data.id, 'done');
-        } else {
-          let data = this.inprogressTasks.splice(indexOfDataMoved, 1)[0];
-          this.doneTasks.push({
-            ...data,
-            status: 'done',
-          });
-        }
-      }
+      //same column
     }
+    this.allTasks = this.taskService.getTasks();
+    this.updateTasks();
+  }
+
+  dropOnColumnTwo(event: CdkDragDrop<any>) {
+    let dataTransfered = event.previousContainer.data[event.previousIndex];
+
+    if (
+      dataTransfered.status === 'New Task' ||
+      dataTransfered.status === 'done'
+    ) {
+      this.taskService.updateTaskStatus(dataTransfered.id, 'in progress');
+    } else {
+      //same column
+    }
+    this.allTasks = this.taskService.getTasks();
+    this.updateTasks();
+  }
+
+  dropOnColumnThree(event: CdkDragDrop<any>) {
+    let dataTransfered = event.previousContainer.data[event.previousIndex];
+
+    if (
+      dataTransfered.status === 'New Task' ||
+      dataTransfered.status === 'in progress'
+    ) {
+      this.taskService.updateTaskStatus(dataTransfered.id, 'done');
+    } else {
+    }
+    this.allTasks = this.taskService.getTasks();
+    this.updateTasks();
   }
 
   ngOnInit(): void {
