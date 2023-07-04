@@ -9,9 +9,9 @@
   <form sui-form [formGroup]="createNewTaskForm" (ngSubmit)="onSubmit()">
     <div suiFormField>
       <label>Task title</label>
+
       <input
         type="text"
-        name="first-name"
         placeholder="Task title"
         (input)="validate()"
         formControlName="taskTitle"
@@ -19,13 +19,22 @@
     </div>
     <div suiFormField>
       <label>Task Description</label>
-      <input
+      <textarea
+        type="text"
+        placeholder="Task Description"
+        formControlName="taskDescription"
+        (input)="validate()"
+        id=""
+        cols="30"
+        rows="10"
+      ></textarea>
+      <!-- <input
         type="text"
         name="last-name"
         placeholder="Task Description"
         formControlName="taskDescription"
         (input)="validate()"
-      />
+      /> -->
     </div>
     <div class="submit__button">
       <button sui-button type="submit" [disabled]="disableSubmit">
